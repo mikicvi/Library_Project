@@ -2,14 +2,6 @@
 <html>
 	<head>
         <?php
-        session_start();
-        //check if the user is logged in, if not, send them to the login page
-        if(!isset($_SESSION['loggedin']))
-        {
-            header('Location: index.php');
-            exit;
-        }
-        ?>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Profile Page</title>
