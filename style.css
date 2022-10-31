@@ -1,0 +1,196 @@
+/* Path: style.css */
+/*modern looking bright responsive website*/
+body {
+    background-image: url('assets/4773996.jpg');
+    backdrop-filter: blur(10px);
+    background-size: cover;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+a:hover {
+    color: #333;
+}
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+.login, .register {
+    width: 100%;
+    max-width: 250px;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 7px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+}
+.login input[type="text"],.register input[type="text"], .login input[type="password"], .register input[type="password"], .register input[type = "email"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+}
+.button {
+    background-color: #78db7b;
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
+}
+.button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+.header-center{
+    padding-top: 10px;
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+    line-height: 1.5;
+    align-items: center;
+    margin: 0;
+    display: block;
+}
+.li-underline{
+    text-decoration: underline;
+}
+.success {
+    width: 100%;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid #e1e1e1;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    color: #00ff00;
+    animation:signup-response 0.5s 1;
+    -webkit-animation:signup-response 0.5s 1;
+    animation-fill-mode: forwards;
+    animation-delay:2s;
+    -webkit-animation-delay:3s; /* Safari and Chrome */
+    -webkit-animation-fill-mode: forwards;
+    } 
+    @keyframes signup-response{
+        from {opacity :1;}
+        to {opacity :0;}
+    }
+    @-webkit-keyframes signup-response{
+        from {opacity :1;}
+        to {opacity :0;}
+    }
+    
+.error {
+    width: 100%;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid #e1e1e1;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    color: #ff0000;
+    animation:signup-response 0.5s 1;
+    -webkit-animation:signup-response 0.5s 1;
+    animation-fill-mode: forwards;
+    animation-delay:2s;
+    -webkit-animation-delay:3s; /* Safari and Chrome */
+    -webkit-animation-fill-mode: forwards;
+    } 
+    @keyframes signup-response{
+        from {opacity :1;}
+        to {opacity :0;}
+    }
+    @-webkit-keyframes signup-response{
+        from {opacity :1;}
+        to {opacity :0;}
+    }
+
+
+/* home page style*/
+.navtop {
+    background-color: rgba(48, 59, 75, 0.845);
+    height: 60px;
+    width: 100%;
+    border: 0;
+}
+.navtop div {
+    display: flex;
+    margin: 0 auto;
+    width: 1000px;
+    height: 100%;
+}
+.navtop div h1, .navtop div a {
+    display: inline-flex;
+    align-items: center;
+}
+.navtop div h1 {
+    flex: 1;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    color: #eaebed;
+    font-weight: normal;
+}
+.navtop div a {
+    padding: 0 20px;
+    text-decoration: none;
+    color: #c1c4c8;
+    font-weight: bold;
+}
+.navtop div a i {
+    padding: 2px 8px 0 0;
+}
+
+.navtop div a:hover {
+    color: #eaebed;
+    border-bottom: 2px solid #eaebed;
+}
+.content {
+    width: 1000px;
+    margin: 0 auto;
+}
+.content h2 {
+    margin: 0;
+    padding: 25px 0;
+    font-size: 22px;
+    border-bottom: 1px solid #e0e0e3;
+    color: #4a536e;
+}
+.content > p, .content > div {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    margin: 25px 0;
+    padding: 25px;
+    background-color: #fff;
+}
+.content > p table td, .content > div table td {
+    padding: 5px;
+}
+.content > p table td:first-child, .content > div table td:first-child {
+    font-weight: bold;
+    color: #4a536e;
+    padding-right: 15px;
+}
+.content > div p {
+    padding: 5px;
+    margin: 0 0 10px 0;
+}
