@@ -176,11 +176,11 @@ h1 {
     border-bottom: 1px solid #e0e0e3;
     color: #4a536e;
 }
-.content > p, .content > div {
+.content > p, .content > div, .content > form {
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     margin: 25px 0;
     padding: 25px;
-    background-color: #fff;
+    background-color: rgba(241, 247, 255, 0.845);
 }
 .content > p table td, .content > div table td {
     padding: 5px;
