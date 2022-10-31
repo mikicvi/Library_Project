@@ -93,6 +93,12 @@
                                     //error message: email is not valid
                                     echo"<div class='error'>Email is not valid!</div>"; 
                                 }
+                                //check phone number length is 10
+                                elseif (strlen($_POST['mobile']) !=10)
+                                {
+                                    //error message: phone number must be 10 digits long
+                                    echo"<div class='error'>Phone number must be 10 digits long!</div>";
+                                }
                                 else
                                 {
                                     //insert the new user into the database
