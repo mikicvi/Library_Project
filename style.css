@@ -55,6 +55,7 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+    border-radius: 10px;
 
 }
 .button:hover {
@@ -180,7 +181,7 @@ h1 {
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     margin: 25px 0;
     padding: 25px;
-    background-color: rgba(241, 247, 255, 0.845);
+    background-color: rgba(255, 255, 255, 0.7);
 }
 .content > p table td, .content > div table td {
     padding: 5px;
@@ -194,3 +195,33 @@ h1 {
     padding: 5px;
     margin: 0 0 10px 0;
 }
+
+/* media queries */
+@media screen and (max-width: 1000px) {
+    .navtop div {
+        width: 100%;
+    }
+    .content {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .navtop div a {
+        display: none;
+    }
+    .navtop div h1 {
+        flex: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .navtop {
+        height: 50px;
+    }
+    .navtop div h1 {
+        font-size: 20px;
+    }
+}
+
+
