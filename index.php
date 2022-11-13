@@ -28,6 +28,7 @@
             <?php
             create_books_table.php
             create_users_table.php
+            create_category_table.php
             ?>
         </div>
     </body>      
