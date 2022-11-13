@@ -25,7 +25,10 @@
                 <input type="submit" name="submit" value="Login" class=button>
                 <p>Not registered yet? <a href="register.php" class = li-underline>Register here</a></p>
             </form>
-
+            <?php
+            create_books_table.php
+            create_users_table.php
+            ?>
         </div>
     </body>      
 </html>
