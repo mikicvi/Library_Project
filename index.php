@@ -25,13 +25,6 @@
                 <input type="submit" name="submit" value="Login" class=button>
                 <p>Not registered yet? <a href="register.php" class = li-underline>Register here</a></p>
             </form>
-            <?php
-            require_once 'db.php';
-            require 'create_users_table.php';
-            require 'create_category_table.php';
-            require 'create_books_table.php';
-            require 'create_reservations_table.php';
-            ?>
         </div>
     </body>      
 </html>
