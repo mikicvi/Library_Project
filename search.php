@@ -30,8 +30,21 @@
             <form action="search.php" method="post">
                 <input type="checkbox" name="search" value="title" checked>Search by Title<br>
                 <input type="checkbox" name="search" value="author">Search by Author<br>
+                <?php
+                //connect to the database
+                require_once "db.php";
+
+                $sql = "SELECT CategoryDescription FROM category";
+                $categories = $conn->query($sql);
+                ?>
                 <select>
-                    <option value="category">Category</option>
+                    <option value="">--- Select Category -- </option>
+                    <?php
+                    while($row = $categories->fetch_assoc())
+                    {
+                        echo "<option value='" . $row['CategoryDescription'] . "'>" . $row['CategoryDescription'] . "</option>";
+                    }
+                    ?>
                 </select><br>
 
                 <input type="text" name="searchterm" placeholder="Search Term">
