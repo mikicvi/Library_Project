@@ -38,6 +38,7 @@
                 $_SESSION['loggedin'] = TRUE;
                 $_SESSION['name'] = $_POST['username'];
                 $_SESSION['id'] = $id;
+                $_SESSION['username'] = $_POST['username'];
                 header('Location: home.php');
             } else {
                 // Incorrect password

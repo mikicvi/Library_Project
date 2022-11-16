@@ -52,27 +52,26 @@
                 }
                 echo "</table>";
                 echo "<form action='reserve.php' method='post'>";
-                echo "<input type='submit' name='submit' value='Reserve' class='button'>";
+                echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
                 echo "</form>";
                 // if the user has ticked a book to reserve, update the database, set the reserved value to 1, and insert the ISBN, username and date into the reserved table
-                if(isset($_POST['submit']))
+
+                if(isset($_POST['submit2']))
                 {
                     if(isset($_POST['Reserve']))
                     {
                         $reserve = $_POST['Reserve'];
                         foreach($reserve as $ISBN)
-                        echo "<p> $ISBN, $reserve </p>";
                         {
-                            // update the books table entry
                             $sql = "UPDATE books SET Reserved = 1 WHERE ISBN = '$ISBN'";
                             //execute the query
-                            $reserve_result = $conn->query($sql);
-                            if($reserve_result === TRUE)
+                            $reserve_result1 = $conn->query($sql);
+                            if($reserve_result1 === TRUE)
                             {
                                 // insert the ISBN and the user's username into the reservations table
-                                $sql = "INSERT INTO reservations (ISBN, Username, ReservationDate) VALUES ('$ISBN', '" . $_SESSION['name'] . "', '" . date("Y-m-d") . "')";
-                                $reserve_result = $conn->query($sql);
-                                if($reserve_result === TRUE)
+                                $sql = "INSERT INTO reservations (ISBN, Username) VALUES ('$ISBN', '" . $_SESSION['username'] . "')";
+                                $reserve_result2 = $conn->query($sql);
+                                if($reserve_result2 === TRUE)
                                 {
                                     echo "<div class='success'> Book reserved successfully</div>";
                                 }
@@ -85,15 +84,20 @@
                             {
                                 echo "<div class='error'>Error2 reserving book: " . $conn->error . "</div>";
                             }
+                        }
                     }
                 }
+                echo "</div>";
+            }
+            else
+            {
+                echo "<div class='error'>No results found</div>";
             }
             // else
             // {
             //     echo "<div class='error'>No results found for your search terms, consider using more or less terms</div>";
             // }
         }
-    }
         ?>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,7 +116,6 @@
 		</nav>
 		<div class="content">
 			<h2>Search Page</h2>
-            <!-- Search form that will allow user to search in number of ways (checkbox) - by book title and/or author(including partial search on both) and by category description in dropdown menu(category to be retrieved from the database(by using select)) -->
             <form action="search.php" method="post">
                 <input type="checkbox" name="title_chbx" value="title" >  Search by Title<br>
                 <input type="checkbox" name="author_chbx" value="author">  Search by Author<br>

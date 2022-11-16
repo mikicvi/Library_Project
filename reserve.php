@@ -10,7 +10,6 @@
         }
 
         require_once "db.php";
-
         // if the user has ticked a book to reserve, update the database, set the reserved value to 1, and insert the ISBN, username and date into the reserved table
         if(isset($_POST['submit']))
         {
@@ -21,12 +20,13 @@
                 {
                     $sql = "UPDATE books SET Reserved = 1 WHERE ISBN = '$ISBN'";
                     //execute the query
-                    $reserve_result = $conn->query($sql);
-                    if($reserve_result === TRUE)
-                    {
+                    $reserve_result1 = $conn->query($sql);
+                    if($reserve_result1 === TRUE)
+                    {   
                         // insert the ISBN and the user's username into the reservations table
-                        $sql = "INSERT INTO reservations (ISBN, Username, ReservationDate) VALUES ('$ISBN', '" . $_SESSION['username'] . ", date('Y-m-d'))";
-                        if($reserve_result === TRUE)
+                        $sql = "INSERT INTO reservations (ISBN, Username) VALUES ('$ISBN', '" . $_SESSION['username'] . "')";
+                        $reserve_result2 = $conn->query($sql);
+                        if($reserve_result2 === TRUE)
                         {
                             echo "<div class='success'> Book reserved successfully</div>";
                         }
