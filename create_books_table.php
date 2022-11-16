@@ -7,7 +7,7 @@ $sql = "CREATE TABLE IF NOT EXISTS books (
     Edition INT(2) NOT NULL,
     Year INT(4) NOT NULL,
     CategoryID VARCHAR(3) NOT NULL,
-    Reserverd BOOLEAN NOT NULL,
+    Reserved BOOLEAN NOT NULL,
     CONSTRAINT FK_CategoryID FOREIGN KEY (CategoryID) 
     REFERENCES category (CategoryID)
     )";

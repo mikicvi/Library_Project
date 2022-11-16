@@ -28,28 +28,85 @@
 			<h2>Search Page</h2>
             <!-- Search form that will allow user to search in number of ways (checkbox) - by book title and/or author(including partial search on both) and by category description in dropdown menu(category to be retrieved from the database(by using select)) -->
             <form action="search.php" method="post">
-                <input type="checkbox" name="search" value="title" checked>Search by Title<br>
-                <input type="checkbox" name="search" value="author">Search by Author<br>
-                <?php
-                //connect to the database
-                require_once "db.php";
-
-                $sql = "SELECT CategoryDescription FROM category";
-                $categories = $conn->query($sql);
-                ?>
-                <select>
-                    <option value="">--- Select Category -- </option>
+                <input type="checkbox" name="title_chbx" value="title" >Search by Title<br>
+                <input type="checkbox" name="author_chbx" value="author">Search by Author<br>
+                <select name="category_select" id="searchinput">
+                    <option disabled selected="">--- Select Category -- </option>
                     <?php
+                    require_once "db.php";
+                    $sql = "SELECT CategoryDescription, CategoryID FROM category";
+                    $categories = $conn->query($sql);
+                    //loop through the categories and display them in the dropdown menu but keep categoryID in the value
                     while($row = $categories->fetch_assoc())
                     {
-                        echo "<option value='" . $row['CategoryDescription'] . "'>" . $row['CategoryDescription'] . "</option>";
+                        echo "<option value=" . $row['CategoryID'] . ">". $row['CategoryDescription'] . "</option>";
                     }
                     ?>
                 </select><br>
-
                 <input type="text" name="searchterm" placeholder="Search Term">
                 <input type="submit" name="submit" value="Search">
-			
+            </form>	
+            <?php
+            // if the submit button is clicked and the search term is empty, display error message
+            if(isset($_POST['submit']) && empty($_POST['searchterm']))
+            {
+                echo "<div class='error'>Please enter a search term to search for</div>";
+            }
+            // if the submit button is clicked and the search term contains title
+            else if(isset($_POST['submit']) && isset($_POST['title_chbx']))
+            {
+                // if the search term is not empty
+                if(!empty($_POST['searchterm']))
+                {
+                    // get the search term
+                    $searchterm = $_POST['searchterm'];
+                    // replace space with (, '%' ,) to allow partial search
+                    $searchterm = str_replace(' ', '%', $searchterm);
+                    echo "<p> search term is " . $searchterm . "</p>";
+                    $sql = "SELECT * FROM books WHERE BookTitle LIKE '%$searchterm%'";
+                    $result = $conn->query($sql);
+
+                    // if the result is not empty
+                    if($result->num_rows > 0)
+                    {
+                        // display all of the book details in a table
+                        echo "<div class='table'>";
+                        echo "<table>";
+                        echo "<tr>";
+                        echo "<th>ISBN</th>";
+                        echo "<th>Book Title</th>";
+                        echo "<th>Author</th>";
+                        echo "<th>Edition</th>";
+                        echo "<th>Year</th>";
+                        echo "<th>Category</th>";
+                        echo "<th>Reserved</th>";
+                        echo "</tr>";
+
+                        while($row = $result->fetch_assoc())
+                        {
+                            echo "<tr>";
+                            echo "<td>" . $row['ISBN'] . "</td>";
+                            echo "<td>" . $row['BookTitle'] . "</td>";
+                            echo "<td>" . $row['Author'] . "</td>";
+                            echo "<td>" . $row['Edition'] . "</td>";
+                            echo "<td>" . $row['Year'] . "</td>";
+                            echo "<td>" . $row['CategoryID'] . "</td>";
+                            //if the value is 0, display Not Reserved, if the value is 1, display Reserved, the value is retrieved from the database and is boolean, suppress the notice 
+                            echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
+                            echo "</tr>";
+                        }
+                        echo "</table>";
+                    }
+                    // if the result is empty
+                    else
+                    {
+                        echo "<div class='error'>No results found</div>";
+                    }
+                }
+            }
+            
+            ?>
+            
 		</div>
 	</body>
 </html>
