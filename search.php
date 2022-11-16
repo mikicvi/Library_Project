@@ -8,6 +8,45 @@
             header('Location: index.php');
             exit;
         }
+        function print_results($result)
+        {
+            require_once "db.php";
+            if($result->num_rows > 0)
+            {
+                // display all of the book details in a table
+                echo "<div class='table'>";
+                echo "<table>";
+                echo "<tr>";
+                echo "<th>ISBN</th>";
+                echo "<th>Book Title</th>";
+                echo "<th>Author</th>";
+                echo "<th>Edition</th>";
+                echo "<th>Year</th>";
+                echo "<th>Category</th>";
+                echo "<th>Reserved</th>";
+                echo "</tr>";
+
+                while($row = $result->fetch_assoc())
+                {
+                    echo "<tr>";
+                    echo "<td>" . $row['ISBN'] . "</td>";
+                    echo "<td>" . $row['BookTitle'] . "</td>";
+                    echo "<td>" . $row['Author'] . "</td>";
+                    echo "<td>" . $row['Edition'] . "</td>";
+                    echo "<td>" . $row['Year'] . "</td>";
+                    // display the category description from the category table
+                    echo "<td>" . $row['CategoryDescription'] . "</td>";
+                    //if the value is 0, display Not Reserved, if the value is 1, display Reserved, the value is retrieved from the database and is boolean, suppress the notice 
+                    echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+            }
+            else
+            {
+                echo "<div class='error'>No results found</div>";
+            }
+        }
         ?>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,59 +91,32 @@
             {
                 echo "<div class='error'>Please enter a search term to search for</div>";
             }
-            // if the submit button is clicked and the search term contains title
-            else if(isset($_POST['submit']) && isset($_POST['title_chbx']))
-            {
-                // if the search term is not empty
-                if(!empty($_POST['searchterm']))
-                {
-                    // get the search term
-                    $searchterm = $_POST['searchterm'];
-                    // replace space with (, '%' ,) to allow partial search
-                    $searchterm = str_replace(' ', '%', $searchterm);
-                    echo "<p> search term is " . $searchterm . "</p>";
-                    $sql = "SELECT * FROM books WHERE BookTitle LIKE '%$searchterm%'";
-                    $result = $conn->query($sql);
-
-                    // if the result is not empty
-                    if($result->num_rows > 0)
-                    {
-                        // display all of the book details in a table
-                        echo "<div class='table'>";
-                        echo "<table>";
-                        echo "<tr>";
-                        echo "<th>ISBN</th>";
-                        echo "<th>Book Title</th>";
-                        echo "<th>Author</th>";
-                        echo "<th>Edition</th>";
-                        echo "<th>Year</th>";
-                        echo "<th>Category</th>";
-                        echo "<th>Reserved</th>";
-                        echo "</tr>";
-
-                        while($row = $result->fetch_assoc())
-                        {
-                            echo "<tr>";
-                            echo "<td>" . $row['ISBN'] . "</td>";
-                            echo "<td>" . $row['BookTitle'] . "</td>";
-                            echo "<td>" . $row['Author'] . "</td>";
-                            echo "<td>" . $row['Edition'] . "</td>";
-                            echo "<td>" . $row['Year'] . "</td>";
-                            echo "<td>" . $row['CategoryID'] . "</td>";
-                            //if the value is 0, display Not Reserved, if the value is 1, display Reserved, the value is retrieved from the database and is boolean, suppress the notice 
-                            echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
-                            echo "</tr>";
-                        }
-                        echo "</table>";
-                    }
-                    // if the result is empty
-                    else
-                    {
-                        echo "<div class='error'>No results found</div>";
-                    }
-                }
-            }
             
+            // if the submit button is clicked and the search term contains title
+            elseif(isset($_POST['submit']) && isset($_POST['title_chbx']))
+            {
+                //get the search term from the form
+                $searchterm = $_POST['searchterm'];
+                // replace space with (, '%' ,) to allow partial search
+                $searchterm = str_replace(' ', '%', $searchterm);
+                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE BookTitle LIKE '%$searchterm%'";
+                $result = $conn->query($sql);
+                // if the result is not empty
+                print_results($result);
+            }
+            // if the submit button is clicked and the search term contains author
+            elseif(isset($_POST['submit']) && isset($_POST['author_chbx']))
+            {
+                //get the search term from the form
+                $searchterm = $_POST['searchterm'];
+                // replace space with (, '%' ,) to allow partial search
+                $searchterm = str_replace(' ', '%', $searchterm);
+                // select all field from books but get categorydescription from category table
+                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%'";
+                //$sql = "SELECT * FROM books WHERE Author LIKE '%$searchterm%'";
+                $result = $conn->query($sql);
+                print_results($result);
+                }
             ?>
             
 		</div>
