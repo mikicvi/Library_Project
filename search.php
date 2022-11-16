@@ -40,6 +40,7 @@
                     //if the value is 0, display Not Reserved, if the value is 1, display Reserved, the value is retrieved from the database and is boolean, suppress the notice 
                     echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
                     // add checkbox that user can tick to reserve the book if it is not already reserved
+                    echo "<form action='' method='post'>";
                     if($row['Reserved'] == 0)
                     {
                         echo "<td><input type='checkbox' name='reserve[]' value='" . $row['ISBN'] . "'></td>";
@@ -51,54 +52,19 @@
                     echo "</tr>";
                 }
                 echo "</table>";
-                echo "<form action='reserve.php' method='post'>";
                 echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
                 echo "</form>";
-                // if the user has ticked a book to reserve, update the database, set the reserved value to 1, and insert the ISBN, username and date into the reserved table
-
-                if(isset($_POST['submit2']))
-                {
-                    if(isset($_POST['Reserve']))
-                    {
-                        $reserve = $_POST['Reserve'];
-                        foreach($reserve as $ISBN)
-                        {
-                            $sql = "UPDATE books SET Reserved = 1 WHERE ISBN = '$ISBN'";
-                            //execute the query
-                            $reserve_result1 = $conn->query($sql);
-                            if($reserve_result1 === TRUE)
-                            {
-                                // insert the ISBN and the user's username into the reservations table
-                                $sql = "INSERT INTO reservations (ISBN, Username) VALUES ('$ISBN', '" . $_SESSION['username'] . "')";
-                                $reserve_result2 = $conn->query($sql);
-                                if($reserve_result2 === TRUE)
-                                {
-                                    echo "<div class='success'> Book reserved successfully</div>";
-                                }
-                                else
-                                {
-                                    echo "<div class='error'>Error1 reserving book: " . $conn->error . "</div>";
-                                }
-                            }
-                            else
-                            {
-                                echo "<div class='error'>Error2 reserving book: " . $conn->error . "</div>";
-                            }
-                        }
-                    }
-                }
                 echo "</div>";
             }
             else
             {
                 echo "<div class='error'>No results found</div>";
             }
-            // else
-            // {
-            //     echo "<div class='error'>No results found for your search terms, consider using more or less terms</div>";
-            // }
         }
         ?>
+
+
+
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Search Page</title>
@@ -116,7 +82,7 @@
 		</nav>
 		<div class="content">
 			<h2>Search Page</h2>
-            <form action="search.php" method="post">
+            <form action="" method="post">
                 <input type="checkbox" name="title_chbx" value="title" >  Search by Title<br>
                 <input type="checkbox" name="author_chbx" value="author">  Search by Author<br>
                 <select name="category_select" id="searchinput">
@@ -188,7 +154,43 @@
                 echo "<div class='error'>Please enter a search term to search for</div>";
             }
             ?>
-            
-		</div>
+
+            <?php
+                // connect to the database
+                require_once "db.php";
+                        // if the user has ticked a book to reserve, update the database, set the reserved value to 1, and insert the ISBN, username and date into the reserved table
+                        if(isset($_POST['submit2']))
+                        {
+                            if(isset($_POST['reserve']))
+                            {
+                                $reserve = $_POST['reserve'];
+                                foreach($reserve as $ISBN)
+                                {
+                                    $sql = "UPDATE books SET Reserved = 1 WHERE ISBN = '$ISBN'";
+                                    //execute the query
+                                    $reserve_result1 = $conn->query($sql);
+                                    if($reserve_result1 === TRUE)
+                                    {   
+                                        // insert the ISBN and the user's username into the reservations table
+                                        $sql = "INSERT INTO reservations (ISBN, Username) VALUES ('$ISBN', '" . $_SESSION['username'] . "')";
+                                        $reserve_result2 = $conn->query($sql);
+                                        if($reserve_result2 === TRUE)
+                                        {
+                                            echo "<div class='success'> Book reserved successfully</div>";
+                                        }
+                                        else
+                                        {
+                                            echo "<div class='error'>Error1 reserving book: " . $conn->error . "</div>";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        echo "<div class='error'>Error2 reserving book: " . $conn->error . "</div>";
+                                    }
+                                }
+                            }
+                        }
+            ?>
+        </div>
 	</body>
 </html>
