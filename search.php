@@ -24,6 +24,7 @@
                 echo "<th>Year</th>";
                 echo "<th>Category</th>";
                 echo "<th>Reserved</th>";
+                echo "<th>Reserve?</th>";
                 echo "</tr>";
 
                 while($row = $result->fetch_assoc())
@@ -38,15 +39,61 @@
                     echo "<td>" . $row['CategoryDescription'] . "</td>";
                     //if the value is 0, display Not Reserved, if the value is 1, display Reserved, the value is retrieved from the database and is boolean, suppress the notice 
                     echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
+                    // add checkbox that user can tick to reserve the book if it is not already reserved
+                    if($row['Reserved'] == 0)
+                    {
+                        echo "<td><input type='checkbox' name='reserve[]' value='" . $row['ISBN'] . "'></td>";
+                    }
+                    else
+                    {
+                        echo "<td></td>";
+                    }
                     echo "</tr>";
                 }
                 echo "</table>";
+                echo "<form action='reserve.php' method='post'>";
+                echo "<input type='submit' name='submit' value='Reserve' class='button'>";
+                echo "</form>";
+                // if the user has ticked a book to reserve, update the database, set the reserved value to 1, and insert the ISBN, username and date into the reserved table
+                if(isset($_POST['submit']))
+                {
+                    if(isset($_POST['Reserve']))
+                    {
+                        $reserve = $_POST['Reserve'];
+                        foreach($reserve as $ISBN)
+                        echo "<p> $ISBN, $reserve </p>";
+                        {
+                            // update the books table entry
+                            $sql = "UPDATE books SET Reserved = 1 WHERE ISBN = '$ISBN'";
+                            //execute the query
+                            $reserve_result = $conn->query($sql);
+                            if($reserve_result === TRUE)
+                            {
+                                // insert the ISBN and the user's username into the reservations table
+                                $sql = "INSERT INTO reservations (ISBN, Username, ReservationDate) VALUES ('$ISBN', '" . $_SESSION['name'] . "', '" . date("Y-m-d") . "')";
+                                $reserve_result = $conn->query($sql);
+                                if($reserve_result === TRUE)
+                                {
+                                    echo "<div class='success'> Book reserved successfully</div>";
+                                }
+                                else
+                                {
+                                    echo "<div class='error'>Error1 reserving book: " . $conn->error . "</div>";
+                                }
+                            }
+                            else
+                            {
+                                echo "<div class='error'>Error2 reserving book: " . $conn->error . "</div>";
+                            }
+                    }
+                }
             }
-            else
-            {
-                echo "<div class='error'>No results found for your search terms, consider using more or less terms</div>";
-            }
+            // else
+            // {
+            //     echo "<div class='error'>No results found for your search terms, consider using more or less terms</div>";
+            // }
         }
+    }
         ?>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +125,7 @@
                     //loop through the categories and display them in the dropdown menu but keep categoryID in the value
                     while($row = $categories->fetch_assoc())
                     {
-                        echo "<option value=" . $row['CategoryID'] . ">". $row['CategoryDescription'] . "</option>";
+                        echo "<option value=" . $row['CategoryDescription'] . ">". $row['CategoryDescription'] . "</option>";
                     }
                     ?>
                 </select><br>
@@ -86,12 +133,15 @@
                 <input class="button" type="submit" name="submit" value="Search">
             </form>	
             <?php
-            // if the submit button is clicked and the search term is empty, display error message
-            if(isset($_POST['submit']) && empty($_POST['searchterm']))
+            // if the submit button is clicked and the search term contains category
+            if(isset($_POST['category_select']))
             {
-                echo "<div class='error'>Please enter a search term to search for</div>";
-            }
+                $category = $_POST['category_select'];
+                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE CategoryDescription LIKE '$category'";
+                $result = $conn->query($sql);
+                print_results($result);
 
+            }
             // if the submit button is clicked and the search term contains title
             elseif(isset($_POST['submit']) && isset($_POST['title_chbx']))
             {
@@ -129,8 +179,11 @@
                 $result = $conn->query($sql);
                 print_results($result);
             }
-
-            
+            // if the submit button is clicked and the search term is empty, display error message
+            elseif(isset($_POST['submit']) && empty($_POST['searchterm']))
+            {
+                echo "<div class='error'>Please enter a search term to search for</div>";
+            }
             ?>
             
 		</div>
