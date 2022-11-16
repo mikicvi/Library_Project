@@ -44,7 +44,7 @@
             }
             else
             {
-                echo "<div class='error'>No results found</div>";
+                echo "<div class='error'>No results found for your search terms, consider using more or less terms</div>";
             }
         }
         ?>
@@ -67,10 +67,10 @@
 			<h2>Search Page</h2>
             <!-- Search form that will allow user to search in number of ways (checkbox) - by book title and/or author(including partial search on both) and by category description in dropdown menu(category to be retrieved from the database(by using select)) -->
             <form action="search.php" method="post">
-                <input type="checkbox" name="title_chbx" value="title" >Search by Title<br>
-                <input type="checkbox" name="author_chbx" value="author">Search by Author<br>
+                <input type="checkbox" name="title_chbx" value="title" >  Search by Title<br>
+                <input type="checkbox" name="author_chbx" value="author">  Search by Author<br>
                 <select name="category_select" id="searchinput">
-                    <option disabled selected="">--- Select Category -- </option>
+                    <option disabled selected="">--- Select Category --- </option>
                     <?php
                     require_once "db.php";
                     $sql = "SELECT CategoryDescription, CategoryID FROM category";
@@ -83,7 +83,7 @@
                     ?>
                 </select><br>
                 <input type="text" name="searchterm" placeholder="Search Term">
-                <input type="submit" name="submit" value="Search">
+                <input class="button" type="submit" name="submit" value="Search">
             </form>	
             <?php
             // if the submit button is clicked and the search term is empty, display error message
@@ -91,7 +91,7 @@
             {
                 echo "<div class='error'>Please enter a search term to search for</div>";
             }
-            
+
             // if the submit button is clicked and the search term contains title
             elseif(isset($_POST['submit']) && isset($_POST['title_chbx']))
             {
@@ -101,7 +101,6 @@
                 $searchterm = str_replace(' ', '%', $searchterm);
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE BookTitle LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
-                // if the result is not empty
                 print_results($result);
             }
             // if the submit button is clicked and the search term contains author
@@ -109,14 +108,29 @@
             {
                 //get the search term from the form
                 $searchterm = $_POST['searchterm'];
-                // replace space with (, '%' ,) to allow partial search
+                // replace space with (, '%' ,) to allow partial search on multiple words
                 $searchterm = str_replace(' ', '%', $searchterm);
-                // select all field from books but get categorydescription from category table
+                // select all field from books but get categorydescription from category table, do partial search on author
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%'";
-                //$sql = "SELECT * FROM books WHERE Author LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
                 print_results($result);
-                }
+            }
+            // if the submit button is clicked and both title and author are checked
+            elseif(isset($_POST['title_chbx']) && isset($_POST['author_chbx']))
+            {
+                //get the search term from the form
+                $searchterm = $_POST['searchterm'];
+                // replace space with (, '%' ,) to allow partial search on multiple words
+                $searchterm = str_replace(' ', '%', $searchterm);
+                // search by title and/or author
+
+                echo "<div class='error'> search term is $searchterm </div>";
+                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle LIKE '%$searchterm%'";
+                $result = $conn->query($sql);
+                print_results($result);
+            }
+
+            
             ?>
             
 		</div>

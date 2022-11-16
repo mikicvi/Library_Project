@@ -41,6 +41,19 @@ h1 {
     font-size: 16px;
     font-family: 'Open Sans', sans-serif;
 }
+.content input[type="text"]{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+}
+.content input[type="checkbox"]{
+    transform : scale(2.0);
+}
+
 .button {
     background-color: #78db7b;
     border: none;
@@ -125,7 +138,6 @@ h1 {
         from {opacity :1;}
         to {opacity :0;}
     }
-
 
 /* home page style*/
 .navtop {
