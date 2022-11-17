@@ -1,7 +1,14 @@
-
 <html>
 	<head>
-        
+    <?php
+        session_start();
+        //check if the user is logged in, if not, send them to the login page
+        if(!isset($_SESSION['loggedin']))
+        {
+            header('Location: index.php');
+            exit;
+        }
+        ?>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Profile Page</title>
@@ -20,15 +27,6 @@
 			</div>
 		</nav>
         <?php
-        // We need to use sessions, so you should always start sessions using the below code.
-
-        // If the user is not logged in redirect to the login page...
-        session_start();
-        // If the user is not logged in redirect to the login page...
-        if (!isset($_SESSION['loggedin'])) {
-            header('Location: index.html');
-            exit;
-        }
         require_once 'db.php';
         // We don't have the password or email info stored in sessions so instead we can get the results from the database.
         $stmt = $conn->prepare('SELECT password, email, firstName, surname, addressLine1, addressLine2, city, mobile FROM users WHERE id = ?');
