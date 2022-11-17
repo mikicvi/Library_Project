@@ -12,9 +12,11 @@
 		<nav class="navtop">
 			<div>
 				<h1>Library</h1>
-				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
-				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                <a href="search.php"><i class="fas fa-search"></i>Search/Reserve</a>
+                <a href="reserved.php"><i class="fas fa-book"></i>Reserved Books</a>
                 <a href="home.php"><i class="fas fa-home"></i>Home</a>
+                <a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
+				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
 			</div>
 		</nav>
         <?php
