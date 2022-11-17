@@ -52,6 +52,11 @@ h1 {
 }
 .content input[type="checkbox"]{
     transform : scale(2.0);
+    align-items: center;
+}
+.content input[name="title"]{
+    align-items: center;
+
 }
 
 .button {
@@ -97,7 +102,7 @@ h1 {
     padding: 10px;
     text-align: center;
     font-size: 15px;
-    color: #00ff00;
+    color: #10b410;
     animation:signup-response 0.5s 1;
     -webkit-animation:signup-response 0.5s 1;
     animation-fill-mode: forwards;

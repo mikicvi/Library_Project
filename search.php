@@ -75,7 +75,7 @@
 		<nav class="navtop">
 			<div>
 				<h1>Library</h1>
-                <a href="search.php"><i class="fas fa-search"></i>Search/Reserve</a>
+                <a href="search.php"><i class="fas fa-search"></i>Search / Reserve</a>
                 <a href="reserved.php"><i class="fas fa-book"></i>Reserved Books</a>
                 <a href="home.php"><i class="fas fa-home"></i>Home</a>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
@@ -182,12 +182,12 @@
                                         }
                                         else
                                         {
-                                            echo "<div class='error'>Error1 reserving book: " . $conn->error . "</div>";
+                                            echo "<div class='error'>Error reserving book: " . $conn->error . "</div>";
                                         }
                                     }
                                     else
                                     {
-                                        echo "<div class='error'>Error2 reserving book: " . $conn->error . "</div>";
+                                        echo "<div class='error'>Error reserving book: " . $conn->error . "</div>";
                                     }
                                 }
                             }
