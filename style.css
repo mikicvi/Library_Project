@@ -183,6 +183,11 @@ h1 {
     color: #eaebed;
     border-bottom: 2px solid #eaebed;
 }
+.navtop div a.active {
+    color: #eaebed;
+    background-color: rgba(79, 92, 110, 0.845);
+    border-bottom: 2px solid #eaebed;
+}
 .content {
     width: 1000px;
     margin: 0 auto;
