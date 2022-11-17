@@ -12,13 +12,6 @@ $sql = "CREATE TABLE IF NOT EXISTS books (
     REFERENCES category (CategoryID)
     )";
 
-    if ($conn->query($sql) === TRUE)
-    {
-        echo "Table books created successfully";
-    }
-    else
-    {
-        echo "Error creating table: " . $conn->error;
-    }
+    $conn->query($sql)
 ?>
     

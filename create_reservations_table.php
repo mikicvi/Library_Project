@@ -9,11 +9,5 @@ $sql = "CREATE TABLE IF NOT EXISTS reservations (
     CONSTRAINT FK_Username FOREIGN KEY (Username) REFERENCES users (Username)
     )";
 
-    if ($conn->query($sql) === TRUE)
-    {
-        echo "Table reservations created successfully";
-    }
-    else
-    {
-        echo "Error creating table: " . $conn->error;
-    }
+    $conn->query($sql)
+?>

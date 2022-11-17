@@ -5,12 +5,5 @@ $sql = "CREATE TABLE IF NOT EXISTS category(
     CategoryDescription VARCHAR(50) NOT NULL
     )";
 
-    if($conn->query($sql) === TRUE)
-    {
-        echo "Table category created successfully";
-    }
-    else
-    {
-        echo "Error creating table: " . $conn->error;
-    }
+    $conn->query($sql)
 ?>

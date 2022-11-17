@@ -13,12 +13,5 @@ $sql="CREATE TABLE IF NOT EXISTS users (
                 email VARCHAR(50) NOT NULL,
                 reg_date TIMESTAMP
             )";
-            if ($conn->query($sql) === TRUE) 
-            {
-                echo "Table users created successfully";
-            } 
-            else 
-            {
-                echo "Error creating table: " . $conn->error;
-            }
+            $conn->query($sql)
 ?>
