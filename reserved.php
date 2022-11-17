@@ -67,28 +67,28 @@
                     echo "<td><input type='submit' name='return' value='Return'></td>";
                     echo "<input type='hidden' name='isbn' value='" . $row["ISBN"] . "'>";
                     echo "</form>";
-                    // if user clicks on return, delete the reservation from the database and set book reserved to 0
-                    if(isset($_POST['return']))
-                    {
-                        $isbn = $_POST['isbn'];
-                        $sql = "DELETE FROM reservations WHERE ISBN = '$isbn' AND Username = '$username'";
-                        $conn->query($sql);
-                        $sql = "UPDATE books SET Reserved = 0 WHERE ISBN = '$isbn'";
-                        $return_result = $conn->query($sql);
-                        if($return_result == TRUE)
-                        {
-                            echo "<div class='success'>Book returned successfully</div>";
-                            header("refresh:2;url=reserved.php");
-                        }
-                        else
-                        {
-                            echo "<div class='error'>Error returning book.</div>";
-                        }
-                    }
                     echo "<br>";
                     echo "</tr>";
                 }
                 echo "</table>";
+                // if user clicks on return, delete the reservation from the database and set book reserved to 0
+                if(isset($_POST['return']))
+                {
+                    $isbn = $_POST['isbn'];
+                    $sql = "DELETE FROM reservations WHERE ISBN = '$isbn' AND Username = '$username'";
+                    $conn->query($sql);
+                    $sql = "UPDATE books SET Reserved = 0 WHERE ISBN = '$isbn'";
+                    $return_result = $conn->query($sql);
+                    if($return_result == TRUE)
+                    {
+                        echo "<div class='success'>Book returned successfully</div>";
+                        header("refresh:2;url=reserved.php");
+                    }
+                    else
+                    {
+                        echo "<div class='error'>Error returning book.</div>";
+                    }
+                }
             }
 
 

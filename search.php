@@ -100,7 +100,7 @@
                     }
                     ?>
                 </select><br>
-                <input type="text" name="searchterm" placeholder="Search Term">
+                <input type="text" name="searchterm" placeholder="Enter search term(s) here">
                 <input class="button" type="submit" name="submit" value="Search">
             </form>	
             <?php
@@ -116,8 +116,8 @@
             // if the submit button is clicked and both title and author are checked
             elseif(isset($_POST['title_chbx']) && isset($_POST['author_chbx']))
             {
-                //get the search term from the form
-                $searchterm = $_POST['searchterm'];
+                //get the search term from the form using the post method and mysqli_real_escape_string to prevent sql injection
+                $searchterm = mysqli_real_escape_string($conn, $_POST['searchterm']);
                 // replace space with (, '%' ,) to allow partial search on multiple words
                 $searchterm = str_replace(' ', '%', $searchterm);
                 // search by title and/or author
@@ -129,7 +129,7 @@
             elseif(isset($_POST['submit']) && isset($_POST['title_chbx']))
             {
                 //get the search term from the form
-                $searchterm = $_POST['searchterm'];
+                $searchterm = mysqli_real_escape_string($conn, $_POST['searchterm']);
                 // replace space with (, '%' ,) to allow partial search
                 $searchterm = str_replace(' ', '%', $searchterm);
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE BookTitle LIKE '%$searchterm%'";
@@ -140,7 +140,7 @@
             elseif(isset($_POST['submit']) && isset($_POST['author_chbx']))
             {
                 //get the search term from the form
-                $searchterm = $_POST['searchterm'];
+                $searchterm = mysqli_real_escape_string($conn, $_POST['searchterm']);
                 // replace space with (, '%' ,) to allow partial search on multiple words
                 $searchterm = str_replace(' ', '%', $searchterm);
                 // select all field from books but get categorydescription from category table, do partial search on author
