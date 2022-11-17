@@ -113,6 +113,18 @@
                 print_results($result);
 
             }
+            // if the submit button is clicked and both title and author are checked
+            elseif(isset($_POST['title_chbx']) && isset($_POST['author_chbx']))
+            {
+                //get the search term from the form
+                $searchterm = $_POST['searchterm'];
+                // replace space with (, '%' ,) to allow partial search on multiple words
+                $searchterm = str_replace(' ', '%', $searchterm);
+                // search by title and/or author
+                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle  LIKE '%$searchterm%'";
+                $result = $conn->query($sql);
+                print_results($result);
+            }
             // if the submit button is clicked and the search term contains title
             elseif(isset($_POST['submit']) && isset($_POST['title_chbx']))
             {
@@ -133,20 +145,6 @@
                 $searchterm = str_replace(' ', '%', $searchterm);
                 // select all field from books but get categorydescription from category table, do partial search on author
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%'";
-                $result = $conn->query($sql);
-                print_results($result);
-            }
-            // if the submit button is clicked and both title and author are checked
-            elseif(isset($_POST['title_chbx']) && isset($_POST['author_chbx']))
-            {
-                //get the search term from the form
-                $searchterm = $_POST['searchterm'];
-                // replace space with (, '%' ,) to allow partial search on multiple words
-                $searchterm = str_replace(' ', '%', $searchterm);
-                // search by title and/or author
-
-                echo "<div class='error'> search term is $searchterm </div>";
-                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
                 print_results($result);
             }
