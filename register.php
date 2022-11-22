@@ -23,14 +23,53 @@
                 <input type="text" name="addressLine1" placeholder="Address Line 1">
                 <input type="text" name="addressLine2" placeholder="Address Line 2">
                 <input type="text" name="city" placeholder="City">
-                <input type="text" name="telephone" placeholder="Telephone">
-                <input type="text" name="mobile" placeholder="Mobile (10 numbers)">
+                <input type="number" name="telephone" placeholder="Telephone">
+                <input type="number" name="mobile" placeholder="Mobile (10 numbers)">
                 <input type="email" name = "email" placeholder="Email">
                 <input type="text" name="username" placeholder="Username">
                 <input type="password" name="password" placeholder="Password (6 characters)">
                 <input type="password" name="password2" placeholder="Confirm Password">
                 <input type="submit" name="submit" value="Register"  class = button>
             </form>
+            <?php
+            //keep the form data filled in if there are errors
+            if(isset($_POST['submit'])){
+                if(isset($_POST['firstName'])){
+                    echo "<script>document.getElementsByName('firstName')[0].value = '".$_POST['firstName']."';</script>";
+                }
+                if(isset($_POST['lastName'])){
+                    echo "<script>document.getElementsByName('lastName')[0].value = '".$_POST['lastName']."';</script>";
+                }
+                if(isset($_POST['addressLine1'])){
+                    echo "<script>document.getElementsByName('addressLine1')[0].value = '".$_POST['addressLine1']."';</script>";
+                }
+                if(isset($_POST['addressLine2'])){
+                    echo "<script>document.getElementsByName('addressLine2')[0].value = '".$_POST['addressLine2']."';</script>";
+                }
+                if(isset($_POST['city'])){
+                    echo "<script>document.getElementsByName('city')[0].value = '".$_POST['city']."';</script>";
+                }
+                if(isset($_POST['telephone'])){
+                    echo "<script>document.getElementsByName('telephone')[0].value = '".$_POST['telephone']."';</script>";
+                }
+                if(isset($_POST['mobile'])){
+                    echo "<script>document.getElementsByName('mobile')[0].value = '".$_POST['mobile']."';</script>";
+                }
+                if(isset($_POST['email'])){
+                    echo "<script>document.getElementsByName('email')[0].value = '".$_POST['email']."';</script>";
+                }
+                if(isset($_POST['username'])){
+                    echo "<script>document.getElementsByName('username')[0].value = '".$_POST['username']."';</script>";
+                }
+                if(isset($_POST['password'])){
+                    echo "<script>document.getElementsByName('password')[0].value = '".$_POST['password']."';</script>";
+                }
+                if(isset($_POST['password2'])){
+                    echo "<script>document.getElementsByName('password2')[0].value = '".$_POST['password2']."';</script>";
+                }
+
+            }
+            ?>
             <?php
             //db connection
             require_once 'db.php';
@@ -94,11 +133,12 @@
                                     //error message: email is not valid
                                     echo"<div class='error'>Email is not valid!</div>"; 
                                 }
-                                //check phone number length is 10
-                                elseif (strlen($_POST['mobile']) !=10)
+                                //check phone number length is 10 and is a number
+
+                                elseif (strlen($_POST['mobile']) !=10 || !is_numeric($_POST['mobile']))
                                 {
                                     //error message: phone number must be 10 digits long
-                                    echo"<div class='error'>Phone number must be 10 digits long!</div>";
+                                    echo"<div class='error'>Mobile number must be numeric 10 digits long!</div>";
                                 }
                                 else
                                 {
@@ -136,4 +176,7 @@
         ?>
         </div>
     </body>
+    <script> if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}</script>
 </html>

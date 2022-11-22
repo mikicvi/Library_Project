@@ -33,7 +33,7 @@ h1 {
     border-radius: 10px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
 }
-.login input[type="text"],.register input[type="text"], .login input[type="password"], .register input[type="password"], .register input[type = "email"] {
+.login input[type="text"], .register input[type="number"], .register input[type="text"], .login input[type="password"], .register input[type="password"], .register input[type = "email"] {
     width: 100%;
     padding: 10px;
     border-radius: 5px;

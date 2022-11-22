@@ -8,6 +8,69 @@
             header('Location: index.php');
             exit;
         }
+        function print5_results($result)
+        {
+            require_once "db.php";
+            if($result->num_rows > 0)
+            {
+                // display all of the book details in a table
+                echo "<div class='table'>";
+                echo "<table>";
+                echo "<tr>";
+                echo "<th>ISBN</th>";
+                echo "<th>Book Title</th>";
+                echo "<th>Author</th>";
+                echo "<th>Edition</th>";
+                echo "<th>Year</th>";
+                echo "<th>Category</th>";
+                echo "<th>Reserved</th>";
+                echo "<th>Reserve?</th>";
+                echo "</tr>";
+                // output data of each row but limit the number of results to 5
+                $i = 0;
+                // if there are more than 5 results display button to show more results
+                while($row = $result->fetch_assoc() and $i <5)
+                {
+                    echo "<tr>";
+                    echo "<td>" . $row['ISBN'] . "</td>";
+                    echo "<td>" . $row['BookTitle'] . "</td>";
+                    echo "<td>" . $row['Author'] . "</td>";
+                    echo "<td>" . $row['Edition'] . "</td>";
+                    echo "<td>" . $row['Year'] . "</td>";
+                    // display the category description from the category table
+                    echo "<td>" . $row['CategoryDescription'] . "</td>";
+                    //if the value is 0, display Not Reserved, if the value is 1, display Reserved 
+                    echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
+                    // add checkbox that user can tick to reserve the book if it is not already reserved
+                    echo "<form action='' method='post'>";
+                    if($row['Reserved'] == 0)
+                    {
+                        echo "<td><input type='checkbox' name='reserve[]' value='" . $row['ISBN'] . "'></td>";
+                    }
+                    else
+                    {
+                        echo "<td></td>";
+                    }
+                    echo "</tr>";
+                    $i = $i + 1;
+                }
+                echo "</table>";
+                // if there are more than 5 results display button to show more results
+                if($result->num_rows > 5)
+                {
+                    echo "<form action='' method='post'>";
+                    echo "<input type='submit' name='show_more' value='Show More Results'>";
+                    echo "</form>";
+                }
+                echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
+                echo "</form>";
+                echo "</div>";
+            }
+            else
+            {
+                echo "<div class='error'>No results found</div>";
+            }
+        }
         function print_results($result)
         {
             require_once "db.php";
@@ -26,7 +89,7 @@
                 echo "<th>Reserved</th>";
                 echo "<th>Reserve?</th>";
                 echo "</tr>";
-
+                // output data of each row
                 while($row = $result->fetch_assoc())
                 {
                     echo "<tr>";
@@ -37,7 +100,7 @@
                     echo "<td>" . $row['Year'] . "</td>";
                     // display the category description from the category table
                     echo "<td>" . $row['CategoryDescription'] . "</td>";
-                    //if the value is 0, display Not Reserved, if the value is 1, display Reserved, the value is retrieved from the database and is boolean, suppress the notice 
+                    //if the value is 0, display Not Reserved, if the value is 1, display Reserved 
                     echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
                     // add checkbox that user can tick to reserve the book if it is not already reserved
                     echo "<form action='' method='post'>";
@@ -61,6 +124,7 @@
                 echo "<div class='error'>No results found</div>";
             }
         }
+
         ?>
 
 
@@ -102,7 +166,29 @@
                 </select><br>
                 <input type="text" name="searchterm" placeholder="Enter search term(s) here">
                 <input class="button" type="submit" name="submit" value="Search">
-            </form>	
+            </form>
+            <?php
+            // keep the search term and checkboxes selected when the page is refreshed, javascript is used to keep track of the input
+            if(isset($_POST['submit']))
+            {
+                if(isset($_POST['title_chbx']))
+                {
+                    echo "<script>document.getElementsByName('title_chbx')[0].checked = true;</script>";
+                }
+                if(isset($_POST['author_chbx']))
+                {
+                    echo "<script>document.getElementsByName('author_chbx')[0].checked = true;</script>";
+                }
+                if(isset($_POST['category_select']))
+                {
+                    echo "<script>document.getElementById('searchinput').value = '" . $_POST['category_select'] . "';</script>";
+                }
+                if(isset($_POST['searchterm']))
+                {
+                    echo "<script>document.getElementsByName('searchterm')[0].value = '" . $_POST['searchterm'] . "';</script>";
+                }
+            }
+            ?>
             <?php
             // if the submit button is clicked and the search term contains category
             if(isset($_POST['category_select']))
@@ -121,7 +207,7 @@
                 // replace space with (, '%' ,) to allow partial search on multiple words
                 $searchterm = str_replace(' ', '%', $searchterm);
                 // search by title and/or author
-                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle  LIKE '%$searchterm%'";
+                $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
                 print_results($result);
             }
@@ -193,4 +279,8 @@
             ?>
         </div>
 	</body>
+    <!-- prevent the page from reloading when the user clicks the reserve button -->
+    <script> if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}</script>
 </html>
