@@ -124,7 +124,6 @@
                 echo "<div class='error'>No results found</div>";
             }
         }
-
         ?>
 
 
@@ -168,7 +167,7 @@
                 <input class="button" type="submit" name="submit" value="Search">
             </form>
             <?php
-            // keep the search term and checkboxes selected when the page is refreshed, javascript is used to keep track of the input
+            //keep the search term and checkboxes selected when the page is refreshed, javascript is used to keep track of the input
             if(isset($_POST['submit']))
             {
                 if(isset($_POST['title_chbx']))
@@ -193,14 +192,14 @@
             // if the submit button is clicked and the search term contains category
             if(isset($_POST['category_select']))
             {
+
                 $category = $_POST['category_select'];
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE CategoryDescription LIKE '$category'";
                 $result = $conn->query($sql);
                 print_results($result);
-
             }
             // if the submit button is clicked and both title and author are checked
-            elseif(isset($_POST['title_chbx']) && isset($_POST['author_chbx']))
+            elseif(isset($_POST['title_chbx']) && isset($_POST['author_chbx']) && !empty($_POST['searchterm']))
             {
                 //get the search term from the form using the post method and mysqli_real_escape_string to prevent sql injection
                 $searchterm = mysqli_real_escape_string($conn, $_POST['searchterm']);
@@ -212,7 +211,7 @@
                 print_results($result);
             }
             // if the submit button is clicked and the search term contains title
-            elseif(isset($_POST['submit']) && isset($_POST['title_chbx']))
+            elseif(isset($_POST['submit']) && isset($_POST['title_chbx']) && !empty($_POST['searchterm']))
             {
                 //get the search term from the form
                 $searchterm = mysqli_real_escape_string($conn, $_POST['searchterm']);
@@ -223,7 +222,7 @@
                 print_results($result);
             }
             // if the submit button is clicked and the search term contains author
-            elseif(isset($_POST['submit']) && isset($_POST['author_chbx']))
+            elseif(isset($_POST['submit']) && isset($_POST['author_chbx']) && !empty($_POST['searchterm']))
             {
                 //get the search term from the form
                 $searchterm = mysqli_real_escape_string($conn, $_POST['searchterm']);
@@ -240,7 +239,6 @@
                 echo "<div class='error'>Please enter a search term to search for</div>";
             }
             ?>
-
             <?php
                 // connect to the database
                 require_once "db.php";
