@@ -35,10 +35,15 @@
                 // Verification success! User has logged-in!
                 // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
                 session_regenerate_id();
+                // set session time out to 60 minutes if no activity
+
+
                 $_SESSION['loggedin'] = TRUE;
                 $_SESSION['name'] = $_POST['username'];
                 $_SESSION['id'] = $id;
                 $_SESSION['username'] = $_POST['username'];
+                $_Session['start'] = time();
+                $_Session['expire'] = $_Session['start'] + (60 * 60);
                 header('Location: home.php');
             } else {
                 // Incorrect password

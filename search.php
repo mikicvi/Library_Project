@@ -55,13 +55,6 @@
                     $i = $i + 1;
                 }
                 echo "</table>";
-                // if there are more than 5 results display button to show more results
-                if($result->num_rows > 5)
-                {
-                    echo "<form action='' method='post'>";
-                    echo "<input type='submit' name='show_more' value='Show More Results'>";
-                    echo "</form>";
-                }
                 echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
                 echo "</form>";
                 echo "</div>";
@@ -208,7 +201,7 @@
                 // search by title and/or author
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
-                print_results($result);
+                print5_results($result);
             }
             // if the submit button is clicked and the search term contains title
             elseif(isset($_POST['submit']) && isset($_POST['title_chbx']) && !empty($_POST['searchterm']))
