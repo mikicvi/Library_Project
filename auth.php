@@ -2,12 +2,7 @@
     // link css file
     echo "<link rel='stylesheet' type='text/css' href='style.css'>";
     session_start();
-    $servername = "localhost";
-    $username = "admin";
-    $password = "libadmin";
-    $dbname = "mylibdb";
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    require_once "db.php";
     // Check connection
     if ($conn->connect_error) 
     {

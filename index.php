@@ -26,5 +26,10 @@
                 <p>Not registered yet? <a href="register.php" class = li-underline>Register here</a></p>
             </form>
         </div>
-    </body>      
+    </body>   
+    <footer>
+        <div class="footer">
+    <p>Vilim Mikic, Library System, 2022</p>
+    </div>
+    </footer>   
 </html>

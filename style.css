@@ -11,6 +11,18 @@ body {
     margin: 0;
     padding-bottom: 10%;
 }
+/* make footer stick to the bottom of the page*/
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #4a536e13;
+    color: #fff;
+    text-align: center;
+    height: 40px;
+}
 
 a {
     color: #666;

@@ -100,6 +100,11 @@
         <script> if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }</script>
+<footer>
+        <div class="footer">
+    <p>Vilim Mikic, Library System, 2022</p>
+    </div>
+    </footer>   
 </html>
 
 

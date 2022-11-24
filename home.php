@@ -31,4 +31,9 @@
 			<p>Welcome back, <?=$_SESSION['name']?>!</p>
 		</div>
 	</body>
+	<footer>
+        <div class="footer">
+    <p>Vilim Mikic, Library System, 2022</p>
+    </div>
+    </footer>   
 </html>
