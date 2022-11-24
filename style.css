@@ -1,5 +1,3 @@
-/* Path: style.css */
-/*modern looking bright responsive website*/
 body {
     background-image: url('assets/4773996.jpg');
     backdrop-filter: blur(10px);
@@ -11,8 +9,7 @@ body {
     margin: 0;
     padding-bottom: 10%;
 }
-/* make footer stick to the bottom of the page*/
-
+/* make footer stick to the bottom of the page transparent*/
 .footer {
     position: fixed;
     bottom: 0;
@@ -36,12 +33,13 @@ body {
     width: 30px;
 }
 .tpagination td:hover {
-    background-color: rgb(153, 152, 152);
+    background-color: rgb(182, 181, 181);
 }
 .tpagination td a {
-    margin: 0 4px;
     color: #fff;
     font-size: 20px;
+    width: 100%;
+    display: block;
 }
 .tpagination td span{
     color: #4a536e;
@@ -180,7 +178,6 @@ h1 {
         to {opacity :0;}
     }
 
-/* home page style*/
 .navtop {
     background-color: rgba(48, 59, 75, 0.845);
     height: 60px;
@@ -247,7 +244,6 @@ h1 {
 .content > p table td:first-child, .content > div table td:first-child {
     font-weight: bold;
     color: #4a536e;
-    padding-right: 15px;
 }
 .content > div p {
     padding: 5px;
