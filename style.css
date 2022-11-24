@@ -23,6 +23,14 @@ body {
     text-align: center;
     height: 40px;
 }
+/*center the pagination which is inside another div(content)*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
 
 a {
     color: #666;
