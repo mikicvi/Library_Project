@@ -1,3 +1,19 @@
+# Required SQL tables are located in /assets
+- You can either set up the data manually through DBMs of your choice or you can include them in index.php and they should be set up automatically upon opening the index.php for the first time e.g. 
+``        <?php
+        require_once 'db.php';
+        include '\assets\crete_books_table.php';
+        include '\assets\create_category_table.php';
+        include '\assets\create_users_table.php';
+        include '\assets\reservations_table.php';
+        include '\assets\sample_data.php';
+        ?>
+``
+
+
+
+
+
 # Library_Project
 Simple university project. Library system built with Server side tech and client side tech. This project is using PHP, SQL, HTML &amp; CSS.
 
