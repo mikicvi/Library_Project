@@ -67,7 +67,6 @@
                     echo "<td><input type='submit' name='return' value='Return'></td>";
                     echo "<input type='hidden' name='isbn' value='" . $row["ISBN"] . "'>";
                     echo "</form>";
-                    echo "<br>";
                     echo "</tr>";
                 }
                 echo "</table>";
