@@ -29,16 +29,6 @@ VALUES ('093-403992', 'Computers in Business', 'Alicia Oneill', 3, 1997, '003', 
 ('988745-234', 'Tara Road', 'Maeve Binchy', 4, 2002, '008', 0),
 ('993-0040-00', 'My life in bits', 'John Smith', 1, 2001, '001', 0),
 ('9987-0039882', 'Shooting History', 'Jon Snow', 1, 2003, '001', 0)";
-
-$sql = "INSERT INTO users (Username, Password, FirstName, Surname, AddressLine1, AddressLine2,  City, Telephone, Mobile, Email)
-VALUES ('alanjmckenna', 't1234s', 'Alan', 'McKenna', '38 Cranley Road', 'Farview', 'Dublin', '9998399', '856625567', 'alanmckenna@TUD.ie'),
-('joecrotty', 'kj7899', 'Joseph', 'Crotty', 'Apt 5 Clyde Road', 'Donnybrook', 'Dublin', '8887889', '976654456', 'joecrotty@TUD.ie'),
-('tommy100', '123456', 'Tom', 'Behan', '14 Hyde Road', 'Dalkey', 'Dublin', '9983747', '876738782', 'tombehan@TUD.ie')";
-
-
-$sql = "INSERT INTO reservations (ISBN, Username, ReservationDate)
-VALUES ('98234-02984', 'joecrotty', '11-Oct-2010'),('9823-98345', 'tommy100', '11-Oct-2010')";
-
 if ($conn->query($sql) === TRUE)
 {
     echo "Sample data inserted into books table successfully";
@@ -46,5 +36,32 @@ if ($conn->query($sql) === TRUE)
 else
 {
     echo "Error inserting sample data into books table: " . $conn->error;
+}
+
+
+$sql = "INSERT INTO users (Username, Password, FirstName, Surname, AddressLine1, AddressLine2,  City, Telephone, Mobile, Email)
+VALUES ('alanjmckenna', 't1234s', 'Alan', 'McKenna', '38 Cranley Road', 'Farview', 'Dublin', '9998399', '856625567', 'alanmckenna@TUD.ie'),
+('joecrotty', 'kj7899', 'Joseph', 'Crotty', 'Apt 5 Clyde Road', 'Donnybrook', 'Dublin', '8887889', '976654456', 'joecrotty@TUD.ie'),
+('tommy100', '123456', 'Tom', 'Behan', '14 Hyde Road', 'Dalkey', 'Dublin', '9983747', '876738782', 'tombehan@TUD.ie')";
+if ($conn->query($sql) === TRUE)
+{
+    echo "Sample data inserted into users table successfully";
+}
+else
+{
+    echo "Error inserting sample data into users table: " . $conn->error;
+}
+
+
+$sql = "INSERT INTO reservations (ISBN, Username, ReservationDate)
+VALUES ('98234-02984', 'joecrotty', '11-Oct-2010'),('9823-98345', 'tommy100', '11-Oct-2010')";
+
+if ($conn->query($sql) === TRUE)
+{
+    echo "Sample data inserted into reservations table successfully";
+}
+else
+{
+    echo "Error inserting sample data into reservations table: " . $conn->error;
 }
 
