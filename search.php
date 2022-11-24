@@ -49,23 +49,23 @@
             </form>
             <?php
             //keep the search term and checkboxes selected when the page is refreshed, javascript is used to keep track of the input
-            if(isset($_POST['submit']))
+            if(isset($_GET['submit']))
             {
-                if(isset($_POST['title_chbx']))
+                if(isset($_GET['title_chbx']))
                 {
                     echo "<script>document.getElementsByName('title_chbx')[0].checked = true;</script>";
                 }
-                if(isset($_POST['author_chbx']))
+                if(isset($_GET['author_chbx']))
                 {
                     echo "<script>document.getElementsByName('author_chbx')[0].checked = true;</script>";
                 }
-                if(isset($_POST['category_select']))
+                if(isset($_GET['category_select']))
                 {
-                    echo "<script>document.getElementById('searchinput').value = '" . $_POST['category_select'] . "';</script>";
+                    echo "<script>document.getElementById('searchinput').value = '" . $_GET['category_select'] . "';</script>";
                 }
-                if(isset($_POST['searchterm']))
+                if(isset($_GET['searchterm']))
                 {
-                    echo "<script>document.getElementsByName('searchterm')[0].value = '" . $_POST['searchterm'] . "';</script>";
+                    echo "<script>document.getElementsByName('searchterm')[0].value = '" . $_GET['searchterm'] . "';</script>";
                 }
             }
             ?>
@@ -78,6 +78,7 @@
                 $category = $_GET['category_select'];
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE CategoryDescription LIKE '$category'";
                 $result = $conn->query($sql);
+                // calculations for pagination
                 $number_of_results = mysqli_num_rows($result);
                 $number_of_pages = ceil($number_of_results/$result_per_page);
                 if(!isset($_GET['page']))
@@ -92,16 +93,17 @@
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE CategoryDescription LIKE '$category' LIMIT " . $start_from_page . ' , ' . $result_per_page . ';';
                 $result = mysqli_query($conn, $sql);
             }
-            // if the submit button is clicked and both title and author are checked
+            // if the submit button is clicked and both title and author are checked and search term is not empty
             elseif(isset($_GET['title_chbx']) && isset($_GET['author_chbx']) && !empty($_GET['searchterm']))
             {
-                //get the search term from the form using the post method and mysqli_real_escape_string to prevent sql injection
+                //get the search term
                 $searchterm = mysqli_real_escape_string($conn, $_GET['searchterm']);
                 // replace space with (, '%' ,) to allow partial search on multiple words
                 $searchterm = str_replace(' ', '%', $searchterm);
                 // search by title and/or author
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
+                // calculations for pagination
                 $number_of_results = mysqli_num_rows($result);
                 $number_of_pages = ceil($number_of_results/$result_per_page);
                 if(!isset($_GET['page']))
@@ -116,15 +118,16 @@
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%' OR BookTitle LIKE '%$searchterm%' LIMIT " . $start_from_page . ' , ' . $result_per_page . ';';
                 $result = mysqli_query($conn, $sql);
             }
-            // if the submit button is clicked and the search term contains title
+            // if the submit button is clicked and the search term contains title and search term is not empty
             elseif(isset($_GET['submit']) && isset($_GET['title_chbx']) && !empty($_GET['searchterm']))
             {
-                //get the search term from the form
+                //get the search termm
                 $searchterm = mysqli_real_escape_string($conn, $_GET['searchterm']);
                 // replace space with (, '%' ,) to allow partial search
                 $searchterm = str_replace(' ', '%', $searchterm);
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE BookTitle LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
+                // calculations for pagination
                 $number_of_results = mysqli_num_rows($result);
                 $number_of_pages = ceil($number_of_results/$result_per_page);
                 if(!isset($_GET['page']))
@@ -149,6 +152,7 @@
                 // select all field from books but get categorydescription from category table, do partial search on author
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE Author LIKE '%$searchterm%'";
                 $result = $conn->query($sql);
+                // calculations for pagination
                 $number_of_results = mysqli_num_rows($result);
                 $number_of_pages = ceil($number_of_results/$result_per_page);
                 if(!isset($_GET['page']))
@@ -169,12 +173,11 @@
                 echo "<div class='error'>Please enter a search term to search for</div>";
             }
 
-
+            // prit out the results, if there is more than 5 results, they will be paged
             if(isset($result))
             {
                 if ($result->num_rows > 0)
                 {
-                
                 // display all of the book details in a table
                 echo "<div class='table'>";
                 echo "<table>";
@@ -216,34 +219,28 @@
                 echo "</table>";
                 //get the total number of pages
                 $total_pages = ceil($number_of_results/ $result_per_page);
+                //display the links to the pages
                 echo"<table class='tpagination'>";
                 echo "<th>";
                 echo "</th>";
                 echo"<tr>";
                 for($i=1; $i<=$total_pages; $i++)
                 {
+                    // if current page is the same as the page number, display the page number in different colour
                     if($page == $i)
                     {
                         echo"<td>";
                         echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $i ."'><span>" . $page . "</span></a>";
                         echo"</td>";
                     }
+                    //print the rest as normal
                     else
                     {
                         echo"<td>";
                         echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $i ."'>" . $i . "</a>";
                         echo"</td>";
                     }
-                    // echo"<td>";
-                    // // generate link for each page number keeping the title_chbx, author_xhbx, category and searchterm selected
-                    // echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $i ."'>".$i."</a>";
-                    // echo"</td>";
                 }
-                // if selected page is the current page, replace the current page with  highlihgth the page number in red
-
-                //echo"<td>";
-                //echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $page ."'><span style='color:red;'>" . $page . "</span></a>";
-
                 echo"</tr>";
                 echo"</table>";
                 echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
