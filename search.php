@@ -249,20 +249,13 @@
                 echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
                 echo "</form>";
                 echo "</div>";
-
-
-            }
-                
+            } 
             else
             {
                 echo "<div class='error'>No results found</div>";
             }
             }
-            
-            
             ?>
-
-
 
             <?php
                 // connect to the database
