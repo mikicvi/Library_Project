@@ -1,5 +1,3 @@
-<!-- A library website that will connect to MySQL, offer register, login, reserve a book and such features with PHP -->
-<!-- Path: index.php -->
 <html>
     <head>
         <title>Library</title>
