@@ -8,119 +8,7 @@
             header('Location: index.php');
             exit;
         }
-        function print5_results($result)
-        {
-            require_once "db.php";
-            if($result->num_rows > 0)
-            {
-                // display all of the book details in a table
-                echo "<div class='table'>";
-                echo "<table>";
-                echo "<tr>";
-                echo "<th>ISBN</th>";
-                echo "<th>Book Title</th>";
-                echo "<th>Author</th>";
-                echo "<th>Edition</th>";
-                echo "<th>Year</th>";
-                echo "<th>Category</th>";
-                echo "<th>Reserved</th>";
-                echo "<th>Reserve?</th>";
-                echo "</tr>";
-                // output data of each row but limit the number of results to 5
-                $i = 0;
-                // if there are more than 5 results display button to show more results
-                while($row = $result->fetch_assoc() and $i <5)
-                {
-                    echo "<tr>";
-                    echo "<td>" . $row['ISBN'] . "</td>";
-                    echo "<td>" . $row['BookTitle'] . "</td>";
-                    echo "<td>" . $row['Author'] . "</td>";
-                    echo "<td>" . $row['Edition'] . "</td>";
-                    echo "<td>" . $row['Year'] . "</td>";
-                    // display the category description from the category table
-                    echo "<td>" . $row['CategoryDescription'] . "</td>";
-                    //if the value is 0, display Not Reserved, if the value is 1, display Reserved 
-                    echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
-                    // add checkbox that user can tick to reserve the book if it is not already reserved
-                    echo "<form action='' method='post'>";
-                    if($row['Reserved'] == 0)
-                    {
-                        echo "<td><input type='checkbox' name='reserve[]' value='" . $row['ISBN'] . "'></td>";
-                    }
-                    else
-                    {
-                        echo "<td></td>";
-                    }
-                    echo "</tr>";
-                    $i = $i + 1;
-                }
-                echo "</table>";
-                echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
-                echo "</form>";
-                echo "</div>";
-            }
-            else
-            {
-                echo "<div class='error'>No results found</div>";
-            }
-        }
-        function print_results($result)
-        {
-            require_once "db.php";
-            if($result->num_rows > 0)
-            {
-                // display all of the book details in a table
-                echo "<div class='table'>";
-                echo "<table>";
-                echo "<tr>";
-                echo "<th>ISBN</th>";
-                echo "<th>Book Title</th>";
-                echo "<th>Author</th>";
-                echo "<th>Edition</th>";
-                echo "<th>Year</th>";
-                echo "<th>Category</th>";
-                echo "<th>Reserved</th>";
-                echo "<th>Reserve?</th>";
-                echo "</tr>";
-                // output data of each row
-                while($row = $result->fetch_assoc())
-                {
-                    echo "<tr>";
-                    echo "<td>" . $row['ISBN'] . "</td>";
-                    echo "<td>" . $row['BookTitle'] . "</td>";
-                    echo "<td>" . $row['Author'] . "</td>";
-                    echo "<td>" . $row['Edition'] . "</td>";
-                    echo "<td>" . $row['Year'] . "</td>";
-                    // display the category description from the category table
-                    echo "<td>" . $row['CategoryDescription'] . "</td>";
-                    //if the value is 0, display Not Reserved, if the value is 1, display Reserved 
-                    echo "<td>" . @($row['Reserved'] == 0 ? "Not Reserved" : "Reserved") . "</td>";
-                    // add checkbox that user can tick to reserve the book if it is not already reserved
-                    echo "<form action='' method='post'>";
-                    if($row['Reserved'] == 0)
-                    {
-                        echo "<td><input type='checkbox' name='reserve[]' value='" . $row['ISBN'] . "'></td>";
-                    }
-                    else
-                    {
-                        echo "<td></td>";
-                    }
-                    echo "</tr>";
-                }
-                echo "</table>";
-                echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
-                echo "</form>";
-                echo "</div>";
-            }
-            else
-            {
-                echo "<div class='error'>No results found</div>";
-            }
-        }
         ?>
-
-
-
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Search Page</title>
@@ -186,7 +74,7 @@
             // if the submit button is clicked and the search term contains category
             if(isset($_GET['category_select']))
             {
-                $searchterm = mysqli_real_escape_string($conn, $_GET['searchterm']);
+                $searchterm = '';
                 $category = $_GET['category_select'];
                 $sql = "SELECT * FROM books INNER JOIN category ON books.CategoryID = category.CategoryID WHERE CategoryDescription LIKE '$category'";
                 $result = $conn->query($sql);
@@ -326,12 +214,38 @@
                     echo "</tr>";
                 }
                 echo "</table>";
+                //get the total number of pages
                 $total_pages = ceil($number_of_results/ $result_per_page);
+                echo"<table class='tpagination'>";
+                echo "<th>";
+                echo "</th>";
+                echo"<tr>";
                 for($i=1; $i<=$total_pages; $i++)
                 {
-                    // generate link for each page number keeping the title_chbx, author_xhbx, category and searchterm selected
-                    echo "<a class='pagination' href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $i . "'>" . $i . "</a>";
+                    if($page == $i)
+                    {
+                        echo"<td>";
+                        echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $i ."'><span>" . $page . "</span></a>";
+                        echo"</td>";
+                    }
+                    else
+                    {
+                        echo"<td>";
+                        echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $i ."'>" . $i . "</a>";
+                        echo"</td>";
+                    }
+                    // echo"<td>";
+                    // // generate link for each page number keeping the title_chbx, author_xhbx, category and searchterm selected
+                    // echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $i ."'>".$i."</a>";
+                    // echo"</td>";
                 }
+                // if selected page is the current page, replace the current page with  highlihgth the page number in red
+
+                //echo"<td>";
+                //echo "<a href='search.php?title_chbx=on&author_chbx=on&category=on&searchterm=" . $_GET['searchterm'] . "&submit=Search&page=" . $page ."'><span style='color:red;'>" . $page . "</span></a>";
+
+                echo"</tr>";
+                echo"</table>";
                 echo "<input type='submit' name='submit2' value='Reserve' class='button'>";
                 echo "</form>";
                 echo "</div>";

@@ -23,13 +23,28 @@ body {
     text-align: center;
     height: 40px;
 }
-/*center the pagination which is inside another div(content)*/
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 0;
+
+.tpagination {
+    margin-right: auto;
+    margin-left: auto;
+    font-size-adjust: 120%;
+}
+.tpagination td {
+    border: 1px solid #ddd;
+    text-align: center;
+    background:  rgba(48, 59, 75, 0.39);
+    width: 30px;
+}
+.tpagination td:hover {
+    background-color: rgb(153, 152, 152);
+}
+.tpagination td a {
+    margin: 0 4px;
+    color: #fff;
+    font-size: 20px;
+}
+.tpagination td span{
+    color: #4a536e;
 }
 
 a {
