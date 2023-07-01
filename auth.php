@@ -43,6 +43,7 @@
             } else {
                 // Incorrect password
                 echo "<div class='error'>Incorrect password!</div>";
+                echo "<div class='error'>Error log: " . $conn->error . "</div>";
                 //stay on the same page
                 header('Refresh: 2; URL = index.php');
             }

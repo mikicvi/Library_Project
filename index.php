@@ -5,6 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        <?php 
+            // require_once 'db.php'; 
+            // include 'assets\create_category_table.php'; 
+            // include 'assets\create_users_table.php'; 
+            // include 'assets\create_books_table.php'; 
+            // include 'assets\create_reservations_table.php';
+            //include 'assets\sample_data.php'; 
+        ?>
     </head>
     <body>
     <nav class="navtop">

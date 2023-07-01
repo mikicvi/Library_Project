@@ -14,7 +14,7 @@ else
 }
 
 // insert multiple sample data into the books table
-$sql = "INSERT INTO books (ISBN, BookTitle, Author, Edition, Year, CategoryID, Reserverd)
+$sql = "INSERT INTO books (ISBN, BookTitle, Author, Edition, Year, CategoryID, Reserved)
 VALUES ('093-403992', 'Computers in Business', 'Alicia Oneill', 3, 1997, '003', 0),
 ('23472-8729', 'Exploring Peru', 'Stephanie Birch', 4, 2005, '005', 0),
 ('237-34823', 'Business Strategy', 'Joe Peppard', 2, 2002, '002', 0),
